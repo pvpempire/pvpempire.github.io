@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PvP Empire</title>
+<meta name="description" content="PvP Empire">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="bg-field" aria-hidden="true"></div>
+<div class="bg-stars" id="bg-stars" aria-hidden="true"></div>
+<div class="bg-vignette" aria-hidden="true"></div>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="#top" class="brand">
+      <img src="assets/pvpempire.png" alt="PvP Empire" class="brand-logo" onerror="this.style.display='none'">
+      <span class="brand-name">PVP <em>EMPIRE</em></span>
+    </a>
+    <nav class="site-nav">
+      <a href="#top" data-page="top">Home</a>
+      <a href="#server" data-page="server">Server</a>
+      <a href="#staff" data-page="staff">Staff</a>
+      <a href="#credits" data-page="credits">Credits</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- ===== Hero ===== -->
+  <section class="hero page-section" id="top">
+    <div class="hero-inner">
+      <h1 class="hero-title anim-drop anim-drop-1">PVP <em>EMPIRE</em></h1>
+      <p class="hero-sub anim-drop anim-drop-2">Ever bored of basic PvP servers? Join us now!</p>
+
+      <div class="hero-status slot anim-drop anim-drop-3">
+        <span class="status-dot" id="hero-status-dot"></span>
+        <span class="hero-status-text">
+          <span class="count" id="hero-players">&mdash;</span> / <span id="hero-max">&mdash;</span> playing now
+        </span>
+        <span class="hero-status-divider"></span>
+        <code id="hero-server-code">&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;</code>
+      </div>
+    </div>
+
+    <div class="hero-showcase slot anim-drop anim-drop-3" id="hero-showcase">
+      <img src="assets/server.png" alt="Screenshot of the PvP Empire server" class="hero-showcase-img"
+           onerror="this.closest('#hero-showcase').style.display='none'">
+    </div>
+  </section>
+
+
+  <!-- ===== Server ===== -->
+  <section class="section page-section" id="server">
+    <h2 class="page-title">Server <em>Details</em></h2>
+    <p class="page-sub"> </p>
+
+    <div class="server-card slot" id="server-card">
+      <div class="server-card-top">
+        <div class="server-card-id">
+          <span class="label">SERVER CODE</span>
+          <div class="code-row">
+            <code id="server-code">&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;</code>
+            <button class="copy-btn" id="copy-code-btn" title="Copy server code" type="button">&#10697;</button>
+          </div>
+        </div>
+        <div id="status-pill"><span class="pill">Loading&hellip;</span></div>
+      </div>
+
+      <h3 class="server-name" id="server-name">Fetching server&hellip;</h3>
+
+      <div class="server-stats">
+        <div class="stat slot">
+          <span class="stat-label">PLAYERS</span>
+          <span class="stat-value"><span id="stat-players">0</span> / <span id="stat-max">0</span></span>
+          <div class="stat-bar"><div class="stat-bar-fill" id="stat-bar-fill"></div></div>
+        </div>
+        <div class="stat slot">
+          <span class="stat-label">ADMIN</span>
+          <span class="stat-value" id="stat-admin">&mdash;</span>
+        </div>
+      </div>
+
+      <p class="server-desc" id="server-desc">Loading description&hellip;</p>
+
+      <div class="server-card-actions">
+        <button class="btn btn--primary" id="list-players-btn" type="button">
+          <img src="assets/players_online.png" alt="" class="btn-icon" onerror="this.style.display='none'">
+          List Players
+        </button>
+        <button class="btn btn--ghost" id="refresh-btn" type="button">&#8635; Refresh</button>
+        <a class="btn btn--ghost" id="discord-link" href="#" target="_blank" rel="noopener" hidden>Discord &#8599;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Staff ===== -->
+  <section class="section page-section" id="staff">
+    <h2 class="page-title">Admins &amp; <em>Staff</em></h2>
+    <div class="staff-grid" id="staff-grid">
+      <div class="staff-loading">Loading staff roster&hellip;</div>
+    </div>
+  </section>
+
+  <!-- ===== Credits ===== -->
+  <section class="section page-section" id="credits">
+    <h2 class="page-title"><em>Credits</em></h2>
+    <ul class="credits-list" id="credits-list">
+      <li class="slot"><span class="credits-role">Loading</span><span class="credits-name">&hellip;</span></li>
+    </ul>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <p>PvP Empire</p>
+</footer>
+
+<!-- ===== Player List Modal ===== -->
+<div class="modal-backdrop" id="players-modal" hidden>
+  <div class="players-panel" role="dialog" aria-modal="true" aria-labelledby="players-panel-title">
+    <div class="players-panel-header">
+      <img src="assets/players_online.png" alt="" class="players-panel-icon" onerror="this.style.display='none'">
+      <span class="players-panel-title" id="players-panel-title">Players online:</span>
+      <span class="players-panel-count">
+        <span id="players-count-online">0</span> <span class="count-sep">/</span> <span id="players-count-max">0</span>
+      </span>
+      <button class="players-panel-close" id="players-close-btn" type="button" aria-label="Close">&#10005;</button>
+    </div>
+    <div class="players-panel-body" id="players-panel-body">
+      <div class="players-loading">Loading players&hellip;</div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   PVP EMPIRE — SITE CONFIG
+   Change SERVER_CODE below and the entire site follows.
+   ============================================================ */
+const CONFIG = {
+  // The one value to rule them all — change your server here
+  SERVER_CODE: "OSUMUJVE",
+
+  SERVERLIST_API: "https://multicraft-production.up.railway.app/",
+  LIST_PLAYERS_API: "https://multicraft-production.up.railway.app/proxy/list-players/",
+
+  ADMINS_JSON: "data/admins.json",
+  CREDITS_JSON: "data/credits.json",
+
+  SKIN_PATH: "assets/skins/",
+  GENDER_ICONS: {
+    "": "assets/gender_boy.png",
+    "male": "assets/gender_boy.png",
+    "female": "assets/gender_girl.png",
+    "admin": "assets/gender_admin.png",
+    "staff": "assets/gender_staff.png"
+  },
+};
+
+const ESC = "\u001b";
+
+/* ---------- tiny helpers ---------- */
+function $(sel) { return document.querySelector(sel); }
+function $id(id) { return document.getElementById(id); }
+function setText(id, text) { const el = $id(id); if (el) el.textContent = text; }
+function setHTML(id, html) { const el = $id(id); if (el) el.innerHTML = html; }
+
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+}
+function cssColor(name) {
+  if (!name) return "inherit";
+  return name.startsWith("#") ? name : name.toLowerCase();
+}
+
+/* ---------- MultiCraft tag parser ---------- */
+function parseTag(tagStr) {
+  if (!tagStr) return { premium: false, segments: [] };
+  let premium = false;
+  let rest = tagStr;
+  const firstEsc = tagStr.indexOf(ESC);
+  if (firstEsc > 0) {
+    premium = true;
+    rest = tagStr.slice(firstEsc);
+  }
+  const segments = [];
+  const regex = new RegExp(ESC.replace(/[\\^$.*+?()[\]{}|]/g, "\\$&") + "\\(c@([^)]+)\\)([^" + ESC + "]*)", "g");
+  let match, matched = false;
+  while ((match = regex.exec(rest)) !== null) {
+    matched = true;
+    segments.push({ color: match[1], text: match[2] });
+  }
+  if (!matched && rest) segments.push({ color: null, text: rest });
+  return { premium, segments };
+}
+
+function renderTagHtml(tagStr, fallbackName) {
+  const { premium, segments } = parseTag(tagStr);
+  let html = "";
+   if (premium) {
+    html += `<span class="player-premium-icon" title="Premium">💎</span>`;
+   }
+  if (segments.length) {
+    for (const seg of segments) {
+      const color = cssColor(seg.color);
+      html += `<span style="color:${color}">${escapeHtml(seg.text)}</span>`;
+    }
+  } else {
+    html += `<span class="player-name-plain">${escapeHtml(fallbackName || "")}</span>`;
+  }
+  return html;
+}
+
+function genderIcon(gender) {
+  return CONFIG.GENDER_ICONS[gender] || CONFIG.GENDER_ICONS[""];
+}
+
+/* ==========================================================
+   SERVER DATA — fetch once, render wherever the page has slots
+   ========================================================== */
+async function fetchServerData() {
+  const res = await fetch(CONFIG.SERVERLIST_API, { cache: "no-store" });
+  if (!res.ok) throw new Error("Bad response " + res.status);
+  const data = await res.json();
+
+  let server = data.favorites && data.favorites[CONFIG.SERVER_CODE];
+  if (!server && Array.isArray(data.nearby)) {
+    server = data.nearby.find(s => s.server_id === CONFIG.SERVER_CODE);
+  }
+  return server || null;
+}
+
+/* Renders into whatever hero / server-card elements exist on the
+   current page — every setter is a no-op if the element is absent,
+   so the same function works on index.html and server.html. */
+function renderServer(server) {
+  if (!server) {
+    setText("server-name", "Server not found");
+    setText("server-desc", `No server matching code "${CONFIG.SERVER_CODE}" was found.`);
+    setHTML("status-pill", `<span class="pill pill--offline"><span class="pill-dot"></span>Offline</span>`);
+    setText("hero-status-copy", "Server offline");
+    return;
+  }
+
+  setText("server-code", server.server_id || CONFIG.SERVER_CODE);
+  setText("hero-server-code", server.server_id || CONFIG.SERVER_CODE);
+  setText("server-name", server.server_name || "Unnamed Server");
+  setText("hero-server-name", server.server_name || "");
+  setText("server-desc", server.description || "");
+
+  const online = !!server.online && !server.suspended;
+  const pillHtml = online
+    ? `<span class="pill pill--online"><span class="pill-dot"></span>Online</span>`
+    : `<span class="pill pill--offline"><span class="pill-dot"></span>Offline</span>`;
+  setHTML("status-pill", pillHtml);
+  setHTML("hero-status-pill", pillHtml);
+
+  const players = server.connected_players ?? 0;
+  const max = server.max_players ?? 0;
+  setText("stat-players", players);
+  setText("stat-max", max);
+  setText("hero-players", players);
+  setText("hero-max", max);
+  const bar = $id("stat-bar-fill");
+  if (bar) bar.style.width = max ? Math.min(100, (players / max) * 100) + "%" : "0%";
+
+  setText("stat-admin", server.admin_name || "\u2014");
+  setText("credits-owner", server.admin_name || "\u2014");
+
+  const dot = $id("hero-status-dot");
+  if (dot) dot.className = "status-dot " + (online ? "is-online" : "is-offline");
+
+  const discordBtn = $id("discord-link");
+  if (discordBtn) {
+    if (server.url) { discordBtn.href = server.url; discordBtn.hidden = false; }
+    else { discordBtn.hidden = true; }
+  }
+
+  const maxOut = $id("players-count-max");
+  if (maxOut) maxOut.textContent = max;
+}
+
+async function loadServer() {
+  try {
+    const server = await fetchServerData();
+    renderServer(server);
+    return server;
+  } catch (err) {
+    console.error("Failed to fetch server list:", err);
+    setText("server-name", "Unable to load server");
+    setText("server-desc", "Could not reach the server list API. Try refreshing in a moment.");
+    setHTML("status-pill", `<span class="pill pill--offline"><span class="pill-dot"></span>Offline</span>`);
+    return null;
+  }
+}
+
+/* ==========================================================
+   PLAYER LIST (modal — server.html)
+   ========================================================== */
+async function fetchPlayers() {
+  const body = $id("players-panel-body");
+  if (!body) return;
+  body.innerHTML = `<div class="players-loading">Loading players\u2026</div>`;
+  try {
+    const res = await fetch(CONFIG.LIST_PLAYERS_API + encodeURIComponent(CONFIG.SERVER_CODE), { cache: "no-store" });
+    if (!res.ok) throw new Error("Bad response " + res.status);
+    const data = await res.json();
+    renderPlayers(data);
+  } catch (err) {
+    console.error("Failed to fetch players:", err);
+    body.innerHTML = `<div class="players-error">Unable to load players right now. Please try again.</div>`;
+  }
+}
+
+function renderPlayers(data) {
+  const body = $id("players-panel-body");
+  const players = Array.isArray(data.players) ? data.players : [];
+  setText("players-count-online", players.length);
+  setText("players-count-max", data.max_players ?? "\u2014");
+
+  if (!players.length) {
+    body.innerHTML = `<div class="players-empty">No players online right now.</div>`;
+    return;
+  }
+
+  body.innerHTML = players.map(p => {
+    const icon = genderIcon(p.gender);
+    const tagHtml = p.tag ? renderTagHtml(p.tag, p.name) : `<span class="player-name-plain">${escapeHtml(p.name)}</span>`;
+    return `
+      <div class="player-row">
+        <img class="player-gender-icon" src="${icon}" alt="" onerror="this.style.visibility='hidden'">
+        <span class="player-tag-wrap">${tagHtml}</span>
+      </div>`;
+  }).join("");
+}
+
+function openPlayersModal() {
+  const modal = $id("players-modal");
+  if (!modal) return;
+  modal.hidden = false;
+  document.body.style.overflow = "hidden";
+  fetchPlayers();
+}
+function closePlayersModal() {
+  const modal = $id("players-modal");
+  if (!modal) return;
+  modal.hidden = true;
+  document.body.style.overflow = "";
+}
+
+/* ==========================================================
+   STAFF ROSTER (staff.html)
+   ========================================================== */
+async function loadStaff() {
+  const grid = $id("staff-grid");
+  if (!grid) return;
+  try {
+    const res = await fetch(CONFIG.ADMINS_JSON, { cache: "no-store" });
+    if (!res.ok) throw new Error("Bad response " + res.status);
+    const admins = await res.json();
+
+    if (!Array.isArray(admins) || !admins.length) {
+      grid.innerHTML = `<div class="staff-loading">No staff listed yet.</div>`;
+      return;
+    }
+
+    grid.innerHTML = admins.map((a, i) => {
+      const username = a.username || "";
+      const skin = CONFIG.SKIN_PATH + username.toLowerCase() + ".png";
+      return `
+        <div class="staff-card slot reveal" style="transition-delay:${i * 60}ms">
+          <img class="staff-skin" src="${skin}" alt="${escapeHtml(username)} skin"
+               onerror="this.remove();">
+          <div class="staff-name">${escapeHtml(username)}</div>
+          <span class="staff-rank">${escapeHtml(a.rank || "Staff")}</span>
+        </div>`;
+    }).join("");
+    observeReveals();
+  } catch (err) {
+    console.error("Failed to load staff roster:", err);
+    grid.innerHTML = `<div class="staff-loading">Unable to load staff roster.</div>`;
+  }
+}
+
+/* ==========================================================
+   CREDITS (credits.html) — sourced from data/credits.json
+   ========================================================== */
+async function loadCredits() {
+  const list = $id("credits-list");
+  if (!list) return;
+  try {
+    const res = await fetch(CONFIG.CREDITS_JSON, { cache: "no-store" });
+    if (!res.ok) throw new Error("Bad response " + res.status);
+    const credits = await res.json();
+
+    list.innerHTML = credits.map((c, i) => `
+      <li class="slot reveal" style="transition-delay:${i * 60}ms">
+        <span class="credits-role">${escapeHtml(c.role || "")}</span>
+        <span class="credits-name" id="${c.dynamic === "owner" ? "credits-owner" : ""}">${escapeHtml(c.name || "\u2014")}</span>
+      </li>`).join("");
+    observeReveals();
+
+    // Fill any "dynamic: owner" entry with the live admin name.
+    if (credits.some(c => c.dynamic === "owner")) {
+      const server = await fetchServerData().catch(() => null);
+      if (server) setText("credits-owner", server.admin_name || "\u2014");
+    }
+  } catch (err) {
+    console.error("Failed to load credits:", err);
+    list.innerHTML = `<li class="slot"><span class="credits-role">Error</span><span class="credits-name">Unable to load credits.json</span></li>`;
+  }
+}
+
+/* ==========================================================
+   SCROLL-REVEAL ANIMATION
+   ========================================================== */
+let revealObserver;
+function observeReveals() {
+  if (!revealObserver) {
+    revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+  }
+  document.querySelectorAll(".reveal:not(.is-visible)").forEach(el => revealObserver.observe(el));
+}
+
+/* ==========================================================
+   ROUTER — only one section (page) is visible at a time
+   ========================================================== */
+const PAGES = ["top", "server", "staff", "credits"];
+
+function showPage(page) {
+  if (!PAGES.includes(page)) page = "top";
+
+  document.querySelectorAll(".page-section").forEach(sec => {
+    sec.classList.toggle("is-active", sec.id === page);
+  });
+  document.querySelectorAll(".site-nav a").forEach(a => {
+    a.classList.toggle("is-active", a.dataset.page === page);
+  });
+
+  window.scrollTo({ top: 0 });
+  observeReveals();
+}
+
+function initRouter() {
+  const route = () => showPage((location.hash || "#top").slice(1));
+  window.addEventListener("hashchange", route);
+  route();
+}
+
+/* ==========================================================
+   STAR BACKGROUND
+   ========================================================== */
+function initStars() {
+  const field = $id("bg-stars");
+  if (!field) return;
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const count = 110;
+  let html = "";
+  for (let i = 0; i < count; i++) {
+    const x = (Math.random() * 100).toFixed(2);
+    const y = (Math.random() * 100).toFixed(2);
+    const size = (Math.random() * 1.6 + 0.8).toFixed(2);
+    const opacity = (Math.random() * 0.5 + 0.35).toFixed(2);
+    const delay = (Math.random() * 5).toFixed(2);
+    const dur = (Math.random() * 3 + 2.5).toFixed(2);
+    html += `<span class="star${reduceMotion ? "" : " star--twinkle"}" style="left:${x}%;top:${y}%;width:${size}px;height:${size}px;opacity:${opacity};${reduceMotion ? "" : `animation-delay:${delay}s;animation-duration:${dur}s;`}"></span>`;
+  }
+  field.innerHTML = html;
+}
+
+/* ==========================================================
+   UI WIRING
+   ========================================================== */
+function init() {
+  initRouter();
+  initStars();
+  observeReveals();
+
+  const listBtn = $id("list-players-btn");
+  if (listBtn) listBtn.addEventListener("click", openPlayersModal);
+
+  const closeBtn = $id("players-close-btn");
+  if (closeBtn) closeBtn.addEventListener("click", closePlayersModal);
+
+  const modal = $id("players-modal");
+  if (modal) modal.addEventListener("click", (e) => { if (e.target.id === "players-modal") closePlayersModal(); });
+
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closePlayersModal(); });
+
+  const refreshBtn = $id("refresh-btn");
+
+  if (refreshBtn) {
+      refreshBtn.addEventListener("click", async () => {
+        refreshBtn.disabled = true;
+        refreshBtn.innerHTML = "⟳ Refreshing...";
+
+        try {
+            await loadServer();
+        } catch (e) {
+            console.error(e);
+        }
+
+        refreshBtn.innerHTML = "⟳ Refresh";
+        refreshBtn.disabled = false;
+    });
+  }
+
+  const copyBtn = $id("copy-code-btn");
+  if (copyBtn) {
+    copyBtn.addEventListener("click", () => {
+      navigator.clipboard?.writeText(CONFIG.SERVER_CODE).then(() => {
+        const original = copyBtn.textContent;
+        copyBtn.textContent = "\u2713";
+        setTimeout(() => (copyBtn.textContent = original), 1200);
+      });
+    });
+  }
+
+  // Each page only has the elements relevant to it — loadServer()
+  // and the others all no-op gracefully where their targets are absent.
+  if ($id("server-name") || $id("hero-status-dot")) loadServer();
+  if ($id("staff-grid")) loadStaff();
+  if ($id("credits-list")) loadCredits();
+}
+
+document.addEventListener("DOMContentLoaded", init);
+
+</script>
+</body>
+</html>
