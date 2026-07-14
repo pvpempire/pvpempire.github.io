@@ -23,6 +23,7 @@
       <a href="#top" data-page="top">Home</a>
       <a href="#server" data-page="server">Server</a>
       <a href="#leaderboard" data-page="leaderboard">Leaderboard</a>
+      <a href="#halloffame" data-page="halloffame">Hall of Fame</a>
       <a href="#staff" data-page="staff">Staff</a>
       <a href="#credits" data-page="credits">Credits</a>
     </nav>
@@ -107,6 +108,15 @@
     </div>
   </section>
 
+  <!-- ===== Hall of Fame ===== -->
+  <section class="section page-section" id="halloffame">
+    <h2 class="page-title">Hall of <em>Fame</em></h2>
+    <p class="page-sub">Honoring legendary figures who have made history in PvP Empire.</p>
+    <div class="halloffame-grid" id="halloffame-grid">
+      <div class="halloffame-loading">Loading Hall of Fame&hellip;</div>
+    </div>
+  </section>
+
   <!-- ===== Staff ===== -->
   <section class="section page-section" id="staff">
     <h2 class="page-title">Admins &amp; <em>Staff</em></h2>
@@ -168,6 +178,7 @@ const CONFIG = {
   ADMINS_JSON: "data/admins.json",
   CREDITS_JSON: "data/credits.json",
   LEADERBOARD_JSON: "data/leaderboard.json",
+  HALLOFFAME_JSON: "data/halloffame.json",
 
   SKIN_PATH: "assets/skins/",
   GENDER_ICONS: {
@@ -532,6 +543,46 @@ async function loadLeaderboard() {
 }
 
 /* ==========================================================
+   HALL OF FAME (halloffame.html)
+   ========================================================== */
+async function loadHallOfFame() {
+  const grid = $id("halloffame-grid");
+  if (!grid) return;
+  try {
+    const res = await fetch(CONFIG.HALLOFFAME_JSON, { cache: "no-store" });
+    if (!res.ok) throw new Error("Bad response " + res.status);
+    const hallofFame = await res.json();
+
+    if (!Array.isArray(hallofFame) || !hallofFame.length) {
+      grid.innerHTML = `<div class="halloffame-loading">No inductees listed yet.</div>`;
+      return;
+    }
+
+    grid.innerHTML = hallofFame.map((legend, i) => {
+      const username = legend.username || "";
+      const skin = CONFIG.SKIN_PATH + username.toLowerCase() + ".png";
+      const achievement = legend.achievement || "";
+      const description = legend.description || "";
+      
+      return `
+        <div class="hall-card slot reveal" style="transition-delay:${i * 80}ms">
+          <div class="hall-card-inner">
+            <span class="hall-badge">LEGEND</span>
+            <img class="hall-skin" src="${skin}" alt="${escapeHtml(username)} skin" onerror="this.src='assets/gender_admin.png';">
+            <h3 class="hall-name">${escapeHtml(username)}</h3>
+            <span class="hall-achievement">${escapeHtml(achievement)}</span>
+            <p class="hall-desc">${escapeHtml(description)}</p>
+          </div>
+        </div>`;
+    }).join("");
+    observeReveals();
+  } catch (err) {
+    console.error("Failed to load Hall of Fame:", err);
+    grid.innerHTML = `<div class="halloffame-loading">Unable to load Hall of Fame roster.</div>`;
+  }
+}
+
+/* ==========================================================
    CREDITS (credits.html) — sourced from data/credits.json
    ========================================================== */
 async function loadCredits() {
@@ -581,7 +632,7 @@ function observeReveals() {
 /* ==========================================================
    ROUTER — only one section (page) is visible at a time
    ========================================================== */
-const PAGES = ["top", "server", "leaderboard", "staff", "credits", "profile"];
+const PAGES = ["top", "server", "leaderboard", "halloffame", "staff", "credits", "profile"];
 
 function showPage(pageWithQuery) {
   const parts = pageWithQuery.split("?");
@@ -686,6 +737,7 @@ function init() {
   // and the others all no-op gracefully where their targets are absent.
   if ($id("server-name") || $id("hero-status-dot")) loadServer();
   if ($id("leaderboard-grid")) loadLeaderboard();
+  if ($id("halloffame-grid")) loadHallOfFame();
   if ($id("staff-grid")) loadStaff();
   if ($id("credits-list")) loadCredits();
 }
