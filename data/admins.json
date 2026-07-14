@@ -1,22 +1,28 @@
 [
   {
     "username": "Vorthexis",
-    "rank": "Owner / Founder"
+    "rank": "Owner / Founder",
+    "about": "Description and profile details for Vorthexis will be added here soon."
   },
   {
     "username": "x9jm",
-    "rank": "Co-Owner"
+    "rank": "Co-Owner",
+    "about": "Description and profile details for x9jm will be added here soon."
   },
   {
     "username": "TimmyLoal",
-    "rank": "Co-Owner"
+    "rank": "Co-Owner",
+    "about": "Description and profile details for TimmyLoal will be added here soon."
   },
   {
     "username": "Mario34",
-    "rank": "Manager"
+    "rank": "Manager",
+    "about": "Description and profile details for Mario34 will be added here soon."
   },
   {
-    "username": "ziadlive",
+    "username": "Blade",
+    "rank": "Admin",
+    "about": "Description and profile details for Blade will be added here soon.""username": "ziadlive",
     "rank": "Admin"
   },
   {
@@ -25,6 +31,7 @@
   },
   {
     "username": "CJSHORT",
-    "rank": "Staff"
+    "rank": "Staff",
+    "about": "Description and profile details for CJSHORT will be added here soon."
   }
 ]

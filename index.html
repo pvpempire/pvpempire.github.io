@@ -474,6 +474,10 @@ async function renderProfilePage(username) {
       </div>`;
   }
   
+  const aboutText = staff.about || `Description and profile details for ${staff.username} will be added here soon.`;
+  const isPlaceholder = !staff.about;
+  const formattedAbout = escapeHtml(aboutText).replace(/\n/g, "<br>");
+
   container.innerHTML = `
     <div class="profile-header-back">
       <a href="#staff" class="back-link">&larr; Back to Staff</a>
@@ -491,7 +495,7 @@ async function renderProfilePage(username) {
       <div class="profile-info-box slot">
         <h4 class="info-box-title">ABOUT</h4>
         <div class="info-box-content">
-          <p class="placeholder-text">Description and profile details for ${escapeHtml(staff.username)} will be added here soon.</p>
+          <p class="${isPlaceholder ? 'placeholder-text' : ''}">${formattedAbout}</p>
         </div>
       </div>
     </div>
