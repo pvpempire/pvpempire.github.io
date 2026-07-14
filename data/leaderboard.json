@@ -1,12 +1,52 @@
 [
-  { "rank": 1, "username": "player1", "link": "https://mtctiers.com/?player=player1" },
-  { "rank": 2, "username": "player2", "link": "https://mtctiers.com/?player=player2" },
-  { "rank": 3, "username": "player3", "link": "https://mtctiers.com/?player=player3" },
-  { "rank": 4, "username": "player4", "link": "https://mtctiers.com/?player=player4" },
-  { "rank": 5, "username": "player5", "link": "https://mtctiers.com/?player=player5" },
-  { "rank": 6, "username": "player6", "link": "https://mtctiers.com/?player=player6" },
-  { "rank": 7, "username": "player7", "link": "https://mtctiers.com/?player=player7" },
-  { "rank": 8, "username": "player8", "link": "https://mtctiers.com/?player=player8" },
-  { "rank": 9, "username": "player9", "link": "https://mtctiers.com/?player=player9" },
-  { "rank": 10, "username": "player10", "link": "https://mtctiers.com/?player=player10" }
+  {
+    "rank": 1,
+    "username": "player1",
+    "link": "https://mtctiers.com/?player=player1"
+  },
+  {
+    "rank": 2,
+    "username": "player2",
+    "link": "https://mtctiers.com/?player=player2"
+  },
+  {
+    "rank": 3,
+    "username": "player3",
+    "link": "https://mtctiers.com/?player=player3"
+  },
+  {
+    "rank": 4,
+    "username": "player4",
+    "link": "https://mtctiers.com/?player=player4"
+  },
+  {
+    "rank": 5,
+    "username": "player5",
+    "link": "https://mtctiers.com/?player=player5"
+  },
+  {
+    "rank": 6,
+    "username": "player6",
+    "link": "https://mtctiers.com/?player=player6"
+  },
+  {
+    "rank": 7,
+    "username": "player7",
+    "link": "https://mtctiers.com/?player=player7"
+  },
+  {
+    "rank": 8,
+    "username": "player8",
+    "link": "https://mtctiers.com/?player=player8"
+  },
+  {
+    "rank": 9,
+    "username": "player9",
+    "link": "https://mtctiers.com/?player=player9"
+  },
+  {
+    "rank": 10,
+    "username": "player10",
+    "link": "https://mtctiers.com/?player=player10"
+  }
 ]
