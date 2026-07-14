@@ -1,6 +1,7 @@
 [
   { "role": "Server Owner", "name": "-", "dynamic": "owner" },
   { "role": "Website", "name": "x9jm" },
+  { "role": "Website Helper", "name": "ziadlive" },
   { "role": "Server API", "name": "ziadlive & x9jm" },
   { "role": "Featured", "name": "Montresique" },
   { "role": "Painter", "name": "Blade" },
