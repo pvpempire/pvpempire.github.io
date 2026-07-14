@@ -650,17 +650,6 @@ h1, h2, h3, h4, p, code { font-family: var(--font-mc); }
   flex-direction: column;
   align-items: center;
 }
-.hall-badge {
-  font-size: 9px;
-  font-weight: bold;
-  background: var(--gold-dim);
-  color: #0a1120;
-  border-radius: var(--radius);
-  padding: 2px 8px;
-  letter-spacing: 1px;
-  margin-bottom: 16px;
-  display: inline-block;
-}
 .hall-skin {
   width: 90px;
   height: 90px;
@@ -674,19 +663,9 @@ h1, h2, h3, h4, p, code { font-family: var(--font-mc); }
 }
 .hall-name {
   font-size: 18px;
-  margin: 0 0 6px;
+  margin: 0 0 10px;
   color: var(--gold);
   text-shadow: 1px 1px 0 rgba(0,0,0,0.6);
-}
-.hall-achievement {
-  font-size: 11px;
-  color: var(--text);
-  letter-spacing: 0.5px;
-  border-bottom: 1px solid var(--border);
-  padding-bottom: 10px;
-  margin-bottom: 10px;
-  width: 100%;
-  display: block;
 }
 .hall-desc {
   font-size: 12.5px;

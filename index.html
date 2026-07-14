@@ -561,16 +561,13 @@ async function loadHallOfFame() {
     grid.innerHTML = hallofFame.map((legend, i) => {
       const username = legend.username || "";
       const skin = CONFIG.SKIN_PATH + username.toLowerCase() + ".png";
-      const achievement = legend.achievement || "";
       const description = legend.description || "";
       
       return `
         <div class="hall-card slot reveal" style="transition-delay:${i * 80}ms">
           <div class="hall-card-inner">
-            <span class="hall-badge">LEGEND</span>
             <img class="hall-skin" src="${skin}" alt="${escapeHtml(username)} skin" onerror="this.src='assets/gender_admin.png';">
             <h3 class="hall-name">${escapeHtml(username)}</h3>
-            <span class="hall-achievement">${escapeHtml(achievement)}</span>
             <p class="hall-desc">${escapeHtml(description)}</p>
           </div>
         </div>`;
